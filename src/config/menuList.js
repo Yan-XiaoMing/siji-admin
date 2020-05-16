@@ -1,0 +1,31 @@
+const menuList = [
+  {
+    title:'主培项目',
+    key:'/home',
+    icon:'<HomeOutlined/>'
+  },
+  {
+    title: '活动信息',
+    key:'/activity',
+    icon:'<PushpinOutlined/>'
+  },
+  {
+    title:'教育咨询',
+    key:'/advisory',
+    icon:'<CommentOutlined/>',
+    children:[
+      {
+        title:'常见问题',
+        key:'/problem'
+      },
+      {
+        title:'一对一咨询',
+        key:'/oneToOne'
+      },
+      {
+        title:'意见箱',
+        key:'/suggestion'
+      }
+    ]
+  }
+];

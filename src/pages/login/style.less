@@ -1,0 +1,93 @@
+.login-wrapper {
+  padding: 10px 0;
+  min-height: 100vh;
+  background: rgb(34, 193, 195);
+  background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  font-family: "work sans", '黑体',serif;
+}
+
+.login-card {
+  padding: 1%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 90vh;
+  background: white;
+  border-radius: 20px;
+  margin: auto;
+  width: 25%;
+  transition: 1s;
+}
+.login-card:hover{
+  box-shadow: 0 5px 10px 3px rgba(0,0,0,0.2);
+}
+
+.login-title {
+  font-family: 黑体, monospace;
+  padding: 1rem 0;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.login-logo{
+  width: 40%;
+  height: auto;
+}
+
+.login-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  max-width: 100%;
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    font-size: 1.3rem;
+    padding-left: 1.5rem;
+    padding-bottom: 1rem;
+    box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+    transition: box-shadow 0.2s ease-in;
+  }
+
+  input:focus {
+    box-shadow: inset 0px -3px 0px 0px rgba(34, 193, 195, 0.7);
+    outline: none;
+  }
+
+  input::-webkit-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.25s ease-out;
+  }
+
+  input:hover::-webkit-input-placeholder,
+  input:focus::-webkit-input-placeholder {
+    opacity: 0;
+  }
+
+  label {
+    font-size: 24px !important;
+    align-self: start;
+    padding-bottom: 0.5rem;
+    color: rgba(187, 187, 187, 0.9);
+  }
+
+  button {
+    font-family: 黑体, serif;
+    border-radius: 25px;
+    width: 80%;
+    height: 40px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+    letter-spacing: 5px;
+  }
+
+}
