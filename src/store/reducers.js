@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 
+import {reducer as userReducer} from '../pages/login/store';
 
-const rootReducer  = combineReducers({
-
+export default combineReducers({
+  user: userReducer
 });
 
-export default rootReducer;

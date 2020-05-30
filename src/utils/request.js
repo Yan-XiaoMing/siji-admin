@@ -1,19 +1,22 @@
-import axios from 'axios'
-import {message} from 'antd'
+import axios from 'axios';
+import {message} from 'antd';
+import storageUtils from './storageUtils';
+
+export const baseUrl = 'http://localhost:9988';
 
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
   timeout: 5000 // 请求超时时间
-})
+});
 
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  let  token = localStorage.getItem('token');
+  const user = storageUtils.getUser();
+  let token = user.token;
   if (token) {
-    config.headers['token'] = token // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+    config.headers['token'] = token; // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
   }
-  return config
+  return config;
 }, error => {
   // Do something with request error
   console.log(error) // for debug

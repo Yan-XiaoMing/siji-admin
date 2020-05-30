@@ -1,4 +1,6 @@
-const { override, fixBabelImports, addLessLoader } = require('customize-cra');
+const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy} = require('customize-cra');
+const {getLessVars} = require('antd-theme-generator');
+const path = require('path');
 
 module.exports = override(
   fixBabelImports('antd', {
@@ -8,9 +10,10 @@ module.exports = override(
   ),
 
   addLessLoader({
-    lessOptions:{
-      javascriptEnabled: true,
-      modifyVars:{'@primary-color':'#1DA57A'}
+    lessOptions: {
+      javascriptEnabled: true
     }
-  })
+  }),
+
+  addDecoratorsLegacy()
 );
