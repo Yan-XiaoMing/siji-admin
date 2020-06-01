@@ -62,7 +62,7 @@ class Opinion extends Component {
         title: '星级打分',
         dataIndex: 'score',
         key: 'score',
-        width: '10%'
+        width: '8%'
       },
       {
         title: '评论',

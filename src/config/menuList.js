@@ -4,7 +4,7 @@ import React from 'react';
 const menuList = [
   {
     name: '主培项目',
-    key: 'home',
+    key: 'term',
     icon: <HomeOutlined/>
   },
   {

@@ -53,8 +53,11 @@ class ColorPicker extends React.Component {
     };
 
     handleChange = (color) => {
-        this.props.onChange(color.hex);
-        this.setState({color: color.hex});
+      const _selected = document.getElementsByClassName('ant-menu-item-selected')[0];
+      if (_selected) _selected.style.backgroundColor = `color.hex!important`;
+      console.log(_selected.style);
+      this.props.onChange(color.hex);
+      this.setState({color: color.hex});
     };
 
     render() {
