@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, message, Modal, Upload, Button} from 'antd';
+import {Form, Input, message, Modal, Upload} from 'antd';
 import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
 import {reqDeleteImg} from '../../api/common';
 import {addTerm} from '../../api/term';
@@ -99,18 +99,6 @@ class TermAdd extends Component {
     });
   };
 
-  beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('您只能够上传格式为 JPG/PNG 的图片!');
-    }
-    const isLt5M = file.size / 1024 / 1024 < 5;
-    if (!isLt5M) {
-      message.error('图片大小不能超过5M');
-    }
-    return isJpgOrPng && isLt5M;
-  };
-
   render() {
     const {fileList} = this.state;
     const formItemLayout = {
@@ -158,7 +146,6 @@ class TermAdd extends Component {
               className="avatar-uploader"
               fileList={fileList}
               action="/img/create"
-              beforeUpload={this.beforeUpload}
               onChange={this.handleChange}
             >
               {fileList.length >= 1 ? null : uploadButton}

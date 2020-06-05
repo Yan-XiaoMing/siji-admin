@@ -1,5 +1,6 @@
 import React from 'react';
 import {Modal, Input, Form} from 'antd';
+import {formatFieldsData} from '../../utils/util';
 
 class EditPasswordModal extends React.Component {
   formRef = React.createRef();
@@ -26,19 +27,20 @@ class EditPasswordModal extends React.Component {
   render() {
     const {visible} = this.state;
     // const { getFieldDecorator, getFieldValue } =  this.formRef.current;
-
     const formItemLayout = {
       labelCol: {span: 6},
       wrapperCol: {span: 14}
     };
+    let user = this.props.user;
+    user = formatFieldsData(user);
     return (
       <Modal
         onCancel={this.handleCancel}
         onOk={this.handleOk}
         visible={visible}
         title="修改密码">
-        <Form ref={this.formRef}>
-          <Form.Item label={'用户名'} {...formItemLayout}>
+        <Form ref={this.formRef} fields={user}>
+          <Form.Item name="username" label={'用户名'} {...formItemLayout}>
             <Input disabled/>
           </Form.Item>
           <Form.Item name="oldPassword" label={'旧密码'} {...formItemLayout} hasFeedback>
@@ -70,7 +72,6 @@ class EditPasswordModal extends React.Component {
                        })
                      ]}
           >
-
             <Input
               placeholder="请确认密码"
               type={'password'}/>

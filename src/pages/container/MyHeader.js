@@ -16,6 +16,7 @@ import storageUtils from '../../utils/storageUtils';
 import EditInfoModal from './EditInfoModal';
 import EditPasswordModal from './EditPasswordModal';
 import './style.less';
+import {formatFieldsData} from '../../utils/util';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -26,6 +27,7 @@ class MyHeader extends Component {
   constructor(props) {
     super(props);
     const userTheme = storageUtils.getItem('user-theme');
+    const user = storageUtils.getUser();
     // console.log(userTheme);
     let color = '#1890ff';
     if (userTheme) {
@@ -33,6 +35,7 @@ class MyHeader extends Component {
       color = userTheme['@primary-color'];
     }
     this.state = {
+      user: user,
       isFullscreen: false,    //控制页面全屏
       color: color,
       infoVisible: false,     //控制修改用户信息的模态框
@@ -47,7 +50,6 @@ class MyHeader extends Component {
   };
 
   toggleFullScreen = () => {
-    // console.log(screenfull.enabled);
     if (screenfull.enabled) {
       screenfull.toggle().then(() => {
         this.setState({
@@ -71,7 +73,6 @@ class MyHeader extends Component {
    */
   onLogout = () => {
     this.props.logout();   //清空localStore 中的数据
-    this.props.history.push('/login');
   };
 
   changeColor = (color) => {
@@ -91,8 +92,7 @@ class MyHeader extends Component {
   };
 
   render() {
-    const {isFullscreen, color} = this.state;
-    const {user, theme} = this.props;
+    const {isFullscreen, color, user} = this.state;
 
     return (
       <div style={{background: '#fff', padding: '0 16px'}}>
@@ -127,8 +127,8 @@ class MyHeader extends Component {
             </Menu>
           </div>
         </div>
-        <EditInfoModal ref={e => this.EditInfoModal = e}/>
-        <EditPasswordModal ref={(e) => this.EditPasswordModal = e}/>
+        <EditInfoModal ref={e => this.EditInfoModal = e} user={user}/>
+        <EditPasswordModal ref={(e) => this.EditPasswordModal = e} user={user}/>
       </div>
     );
   }

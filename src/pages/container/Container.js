@@ -45,6 +45,7 @@ class Container extends Component {
       onOk: () => {
         console.log('ok');
         localStorage.removeItem('token');
+        this.props.history.replace('/login');
       }
     });
   };
@@ -55,16 +56,14 @@ class Container extends Component {
     if (!user.token) {
       message.warning('您的登录已过期');
       storageUtils.removeUser();
-      return <Redirect to={'/login'}/>;
+      this.props.history.replace('/login');
     } else {
       const result = await checkToken();
       const data = result.data;
-      if (data.code === 0) {
-        // message.success('token有效');
-      } else {
+      if (data.code !== 0) {
         message.warning('您的登录已过期');
         storageUtils.removeUser();
-        return <Redirect to={'/login'}/>;
+        this.props.history.replace('/login');
       }
     }
   }

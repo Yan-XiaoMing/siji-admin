@@ -108,7 +108,7 @@ class Term extends Component {
           <Button onClick={this.openAddModal} type="primary">新增<PlusOutlined/></Button>
         </div>
         {
-          termData.length != 0
+          termData.length !== 0
             ? <Table bordered rowKey={record => record.id} columns={columns} dataSource={termData}
                      pagination={{defaultPageSize: 6}} loading={loading}/>
             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>

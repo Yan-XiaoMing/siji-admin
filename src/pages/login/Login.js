@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Form} from 'antd';
-import './style.less';
 import logo from '../../asset/img/dinggao.svg';
 import {login as loginRequest, checkToken} from '../../api/login';
 import {message} from 'antd';
@@ -9,14 +8,16 @@ import {randomNum} from '../../utils/util';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {saveUserData} from './store/actionCreators';
-import {Redirect} from 'react-router-dom';
+import {withRouter, Redirect} from 'react-router-dom';
+import './style.less';
+
 
 const store = connect(
   (state) => ({user: state.user}),
   (dispatch) => bindActionCreators({saveUserData}, dispatch)
 );
 
-@store
+@withRouter @store
 class Login extends Component {
 
   state = {
@@ -66,7 +67,6 @@ class Login extends Component {
     values = JSON.stringify(values);
 
     const result = await loginRequest(values);
-    // console.log(result);
 
     if (result.data.code === 0) {
       message.success('登录成功');
@@ -108,9 +108,11 @@ class Login extends Component {
     if (tempUser !== '{}') {
       console.log('发送');
       const result = await checkToken();
-      if (result.code === 0) {
+      const data = result.data;
+      if (data.code === 0) {
         await this.props.saveUserData(user);
-        return <Redirect to={'/'}/>;
+        console.log('跳转');
+        this.props.history.replace('/');
       } else {
         storageUtils.removeUser();
       }

@@ -19,7 +19,6 @@ class Opinion extends Component {
     }, () => {
       // console.log(this.state.opinionData);
     });
-
     this.OpinionInfo.toggleVisible(true);
   };
 
@@ -29,7 +28,7 @@ class Opinion extends Component {
     });
     const data = await getOpinion();
     const result = data.data;
-    if (result.code == 0) {
+    if (result.code === 0) {
       this.setState({
         loading: false,
         data: result.data
@@ -44,7 +43,7 @@ class Opinion extends Component {
   removeItem = async (item) => {
     const data = await removeOpinion(item.id);
     const result = data.data;
-    if (result.code == 0) {
+    if (result.code === 0) {
       message.success(result.data);
       this.getOpinion();
     } else {
@@ -100,7 +99,7 @@ class Opinion extends Component {
     return (
       <div>
         {
-          data.length != 0 ?
+          data.length !== 0 ?
             <Table bordered rowKey={record => record.id} columns={columns} dataSource={data}
                    pagination={{defaultPageSize: 6}}
                    loading={loading}/> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>

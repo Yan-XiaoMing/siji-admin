@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, Form, message, Input, Button} from 'antd';
 import storageUtils from '../../utils/storageUtils';
+import {formatFieldsData} from '../../utils/util';
 
 class EditInfoModal extends React.Component {
 
@@ -55,13 +56,15 @@ class EditInfoModal extends React.Component {
       labelCol: {span: 6},
       wrapperCol: {span: 14}
     };
+    let user = this.props.user;
+    user = formatFieldsData(user);
     return (
       <Modal
         onCancel={this.handleCancel}
         onOk={this.handleOk}
         visible={visible}
         title="编辑个人信息">
-        <Form ref={this.formRef}>
+        <Form ref={this.formRef} fields={user}>
           <Form.Item name="username" label={'用户名'}  {...formItemLayout} rules={[{required: true, message: '请输入用户名'}]}
                      hasFeedback>
             <Input placeholder="请输入您的用户名" disabled/>
