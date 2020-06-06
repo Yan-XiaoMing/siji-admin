@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Tabs} from 'antd';
+import Swiper from '../../components/Swiper/Swiper';
 import './style.less';
 
 const TabPane = Tabs.TabPane;
@@ -39,21 +40,24 @@ class MyContent extends Component {
       <div className='w-myContent'>
         {
           panes.length ? (
-            <Tabs
-              tabBarStyle={{background: '#f0f2f5', marginBottom: 0}}
-              onEdit={this.onEdit}
-              onChange={this.onChange}
-              activeKey={activeMenu}
-              type="editable-card"
-              hideAdd
-            >
-              {panes.map(item =>
-                (<TabPane key={item.key} tab={item.name} style={{padding: 24}}>
-                  {item.content}
-                </TabPane>))
-              }
-            </Tabs>
-          ) : <div className='myContent-default-bg'/>
+              <Tabs
+                tabBarStyle={{background: '#f0f2f5', marginBottom: 0}}
+                onEdit={this.onEdit}
+                onChange={this.onChange}
+                activeKey={activeMenu}
+                type="editable-card"
+                hideAdd
+              >
+                {panes.map(item =>
+                  (<TabPane key={item.key} tab={item.name} style={{padding: 24}}>
+                    {item.content}
+                  </TabPane>))
+                }
+              </Tabs>
+            )
+            : <div className='myContent-default-bg'>
+              <Swiper/>
+            </div>
         }
       </div>
     );

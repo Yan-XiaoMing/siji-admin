@@ -18,6 +18,7 @@
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "braft-editor": "^2.3.9",
+    "braft-utils": "latest",
     "customize-cra": "^1.0.0-alpha.0",
     "less": "^3.11.1",
     "less-loader": "^6.1.0",
@@ -30,12 +31,12 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
+    "react-spring": "^8.0.27",
+    "react-use-gesture": "^7.0.15",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "screenfull": "^4.2.0",
-    "store": "^2.0.12",
-    "braft-utils": "latest",
-    "braft-utils": "latest"
+    "store": "^2.0.12"
   },
   "scripts": {
     "start": "react-app-rewired start",
