@@ -14,7 +14,7 @@ export function setWebsocket(websocket) {
 export function initWebSocket(user) {    //初始化websocket对象
   console.log(window.location.hostname);
   return async function (dispatch) {
-    const websocket = new WebSocket('ws://' + window.location.hostname + ':8081');
+    const websocket = new WebSocket('ws://' + window.location.hostname + ':7778');
     //建立连接时触发
     websocket.onopen = function (event) {
       const data = {
@@ -23,14 +23,16 @@ export function initWebSocket(user) {    //初始化websocket对象
       };
       //当用户第一次建立websocket链接时，发送用户信息到后台，告诉它是谁建立的链接
       websocket.send(JSON.stringify(data));
-      console.log(event);
+      // console.log(event);
     };
     //监听服务端的消息事件
     websocket.onmessage = function (event) {
       const data = JSON.parse(event.data);
+      console.log(data);
       //在线人数变化的消息
       if (data.type === 0) {
         dispatch(setOnlinelist(data.msg.onlineList));
+        console.log('弹窗')
         data.msg.text && notification.info({
           message: '提示',
           description: data.msg.text
@@ -71,7 +73,6 @@ export function initChatList() {
 }
 
 export function setChatList(chatList) {
-  console.log('setChatList');
   return {
     type: SET_CHATLIST,
     chatList

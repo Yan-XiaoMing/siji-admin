@@ -19,7 +19,7 @@ class QuestionModal extends Component {
       .then(async value => {
         const data = await addQuestion(value);
         const result = data.data;
-        if (result.code === 0) {
+        if (result.code == 0) {
           message.success(result.data);
           this.props.onAdd();
           this.toggleVisible(false);

@@ -31,6 +31,7 @@ class Container extends Component {
 
   init = async () => {
     const user = storageUtils.getUser();
+    console.log('init');
     this.props.initWebSocket(user);
   };
 

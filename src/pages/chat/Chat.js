@@ -67,6 +67,7 @@ class Chat extends Component {
     }
     if (websocket.readyState !== 1) {
       //断开连接，重新连接
+      console.log(websocket.readyState);
       this.props.initWebSocket(user);
       return message.warning('消息发送失败，请重新发送');
     }

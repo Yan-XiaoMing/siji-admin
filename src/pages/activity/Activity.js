@@ -100,12 +100,12 @@ class Activity extends Component {
   };
 
   removeActivity = async (item) => {
-    let data;
+    let data = {};
     data.id = item.id;
     data.image = item.image;
     const req = await removeActivity(data);
     const result = req.data;
-    if (result.code === 0) {
+    if (result.code == 0) {
       message.success('删除成功');
       await this.getActivityList();
     } else {
