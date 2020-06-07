@@ -2,36 +2,49 @@ import React, {Component} from 'react';
 import {replaceImg, throttle} from '../../utils/util';
 import BraftEditor from 'braft-editor';
 import moment from 'moment';
-import 'braft-editor/dist/index.css';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {initWebSocket, initChatList} from '../../store/actions';
 import {message, Avatar, Divider} from 'antd';
 import {List, CellMeasurer, CellMeasurerCache} from 'react-virtualized';
+import storageUtils from '../../utils/storageUtils';
 import './style.less';
+import 'braft-editor/dist/index.css';
+
 
 const cache = new CellMeasurerCache({
   defaultHeight: 96,
   fixedWidth: true
 });
 
+const user = storageUtils.getUser();
+
+const store = connect(
+  (state) => ({websocket: state.websocket, chatList: state.chatList}),
+  (dispatch) => bindActionCreators({initWebSocket, initChatList}, dispatch)
+);
+
+@store
 class Chat extends Component {
 
 
   state = {
     editorState: BraftEditor.createEditorState(null),
-    userList: [] //所有用户列表
+    userList: [], //所有用户列表,
+    user: user
   };
 
-  // scrollToRow = () => {
-  //   // 页面首次进入时并没有滚动到最底部，用下面这种方法进行处理
-  //   const rowIndex = this.props.chatList.length - 1
-  //   this.chatListDom.scrollToRow(rowIndex)
-  //   clearTimeout(this.scrollToRowTimer)
-  //   this.scrollToRowTimer = setTimeout(() => {
-  //     if (this.chatListDom) {
-  //       this.chatListDom.scrollToRow(rowIndex)
-  //     }
-  //   }, 10)
-  // }
-
+  scrollToRow = () => {
+    // 页面首次进入时并没有滚动到最底部，用下面这种方法进行处理
+    const rowIndex = this.props.chatList.length - 1;
+    this.chatListDom.scrollToRow(rowIndex);
+    clearTimeout(this.scrollToRowTimer);
+    this.scrollToRowTimer = setTimeout(() => {
+      if (this.chatListDom) {
+        this.chatListDom.scrollToRow(rowIndex);
+      }
+    }, 10);
+  };
   handleEditorChange = (editorState) => {
     this.setState({editorState});
   };
@@ -39,10 +52,30 @@ class Chat extends Component {
   handleKeyCommand = (command) => {
     //如果是回车命名就发送信息
     if (command === 'split-block') {
-      // this.onSend()
+      this.onSend();
       return 'handled';
     }
     return 'not-handled';
+  };
+
+  onSend = () => {
+    const editorState = this.state.editorState;
+    const htmlContent = editorState.toHTML();
+    const websocket = this.props.websocket;
+    if (editorState.isEmpty()) {
+      return message.warning('请先输入聊天内容');
+    }
+    if (websocket.readyState !== 1) {
+      //断开连接，重新连接
+      this.props.initWebSocket(user);
+      return message.warning('消息发送失败，请重新发送');
+    }
+    websocket.send(JSON.stringify({
+      content: htmlContent
+    }));
+    this.setState({
+      editorState: BraftEditor.createEditorState(null)
+    });
   };
 
   //时间上的处理
@@ -111,12 +144,19 @@ class Chat extends Component {
   };
 
   componentDidMount() {
-    // if (this.props.websocket && this.props.websocket.readyState !== 1) {
-    //   this.props.initWebSocket(this.props.user)
-    // }
+    if (this.props.websocket && this.props.websocket.readyState !== 1) {
+      this.props.initWebSocket(user);
+    }
     // this.scrollToRow()
     // this.getUserList()
     window.onmouseup = this.onMouseUp;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.chatList !== prevProps.chatList) {
+      this.scrollToRow();
+    }
+
   }
 
   componentWillUnmount() {
@@ -125,11 +165,10 @@ class Chat extends Component {
 
 
   render() {
-    const {editorState, userList} = this.state;
-    // const {chatList, user, onlineList} = this.props;
-    const chatList = [];
-    const user = {};
-    const onlineList = [];
+    const {editorState, userList, user} = this.state;
+    const {chatList} = this.props;
+    // let chatList=[];
+    let onlineList = [];
     const controls = ['emoji', 'italic', 'text-color', 'separator', 'link', 'separator', 'media'];
     // 禁止上传video、audio
     const media = {
@@ -168,7 +207,7 @@ class Chat extends Component {
               <img src={require('./imgs/header2.png')} alt=""/>
             </div>
             <div className='header-right'>
-              <Avatar src={user.avatar}/>
+              <Avatar src={require('./imgs/boy.png')}/>
             </div>
           </div>
           <div className='chat-body'>
@@ -177,7 +216,7 @@ class Chat extends Component {
                 <div><Avatar size='large' src={require('../../asset/img/logo_wuzi.png')}/></div>
                 <div className='left-item-text'>
                   <div className='group-name'>
-                    <span>四季惠享聊天室</span>
+                    <span>四季聊天室</span>
                     <span>{this.handleTime(lastChat.createTime, true).split(' ')[0]}</span>
                   </div>
                   <div className='group-message' style={{display: lastChat.userId ? 'flex' : 'none'}}>
@@ -210,7 +249,7 @@ class Chat extends Component {
                         <div className='time'>{this.handleTime(chatList[index].createTime)}</div>
                       )}
                       <div className={`chat-item-info ${user.id === chatList[index].userId ? 'chat-right' : ''}`}>
-                        <div><Avatar src={chatList[index].userAvatar}/></div>
+                        <div><Avatar src={require('./imgs/boy.png')}/></div>
                         <div className='chat-main'>
                           <div className='username'>{chatList[index].username}</div>
                           <div className='chat-content' dangerouslySetInnerHTML={{__html: chatList[index].content}}/>

@@ -12,17 +12,18 @@ export function setWebsocket(websocket) {
 }
 
 export function initWebSocket(user) {    //初始化websocket对象
+  console.log(window.location.hostname);
   return async function (dispatch) {
     const websocket = new WebSocket('ws://' + window.location.hostname + ':8081');
     //建立连接时触发
-    websocket.onopen = function () {
+    websocket.onopen = function (event) {
       const data = {
         id: user.id,
-        username: user.username,
-        avatar: user.avatar
+        username: user.username
       };
       //当用户第一次建立websocket链接时，发送用户信息到后台，告诉它是谁建立的链接
       websocket.send(JSON.stringify(data));
+      console.log(event);
     };
     //监听服务端的消息事件
     websocket.onmessage = function (event) {
@@ -41,11 +42,13 @@ export function initWebSocket(user) {    //初始化websocket对象
         notification.open({
           message: data.msg.username,
           description: <div style={{wordBreak: 'break-all'}}
-                            dangerouslySetInnerHTML={{__html: replaceImg(data.msg.content)}}/>,
-          icon: <Avatar src={data.msg.userAvatar}/>
+                            dangerouslySetInnerHTML={{__html: replaceImg(data.msg.content)}}/>
         });
       }
-      console.log(11, data);
+      // console.log(11, data);
+    };
+    websocket.onerror = (err) => {
+      console.log(err);
     };
     dispatch(setWebsocket(websocket));
     dispatch(initChatList());
@@ -62,11 +65,13 @@ export function setOnlinelist(onlineList) {
 export function initChatList() {
   return async function (dispatch) {
     const res = await getChatList();
-    dispatch(setChatList(res.data || []));
+    const data = res.data;
+    dispatch(setChatList(data.data || []));
   };
 }
 
 export function setChatList(chatList) {
+  console.log('setChatList');
   return {
     type: SET_CHATLIST,
     chatList

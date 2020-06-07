@@ -105,7 +105,7 @@ class Login extends Component {
     const user = storageUtils.getUser();
     let tempUser = JSON.stringify(user);
     console.log(tempUser);
-    if (tempUser !== '{}') {
+    if (tempUser !== '{}' && tempUser !== null && tempUser !== undefined) {
       console.log('发送');
       const result = await checkToken();
       const data = result.data;

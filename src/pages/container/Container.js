@@ -1,32 +1,37 @@
 import React, {Component} from 'react';
-import {withRouter, Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {Layout, Modal, message} from 'antd';
 import MyContent from './MyContent';
 import MyHeader from './MyHeader';
 import MySider from './MySider';
-// import {initWebSocket} from '../../store/actions'
-// import {connect} from 'react-redux'
-// import {bindActionCreators} from 'redux';
+import {initWebSocket} from '../../store/actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {checkToken} from '../../api/login';
 import storageUtils from '../../utils/storageUtils';
-import './style.less';
 import GithubOutlined from '@ant-design/icons/lib/icons/GithubOutlined';
+import './style.less';
 
 
 const {Header, Sider, Content, Footer} = Layout;
 
-// const store = connect(
-//   (state) => ({ user: state.user, websocket: state.websocket }),
-//   (dispatch) => bindActionCreators(initWebSocket, dispatch)
-// )
+const store = connect(
+  (state) => ({user: state.user, websocket: state.websocket}),
+  (dispatch) => bindActionCreators({initWebSocket}, dispatch)
+);
 
-
+@store
 class Container extends Component {
 
   state = {
     collapsed: false,  //侧边栏的折叠和展开
     panes: [],    //网站打开的标签页列表
     activeMenu: ''  //网站活动的菜单
+  };
+
+  init = async () => {
+    const user = storageUtils.getUser();
+    this.props.initWebSocket(user);
   };
 
   _setState = (obj) => {
@@ -43,8 +48,8 @@ class Container extends Component {
     Modal.confirm({
       title: '确认要退出登录吗？',
       onOk: () => {
-        console.log('ok');
-        localStorage.removeItem('token');
+        // console.log('ok');
+        storageUtils.removeUser();
         this.props.history.replace('/login');
       }
     });
@@ -53,6 +58,7 @@ class Container extends Component {
 
   async componentDidMount() {
     const user = storageUtils.getUser();
+    this.init();
     if (!user.token) {
       message.warning('您的登录已过期');
       storageUtils.removeUser();
