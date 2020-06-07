@@ -7,7 +7,7 @@ import './style.less';
 const Card = props => {
   const {_x, _y, num, index, data, active} = props;
   const cardIndex = num - index;
-  const offset = cardIndex * 560 + 100;
+  const offset = cardIndex * 680 + 70;
   const [{x, y, scale}, set] = useSpring(() => ({
     x: _x + offset,
     y: _y,
@@ -49,13 +49,13 @@ const Card = props => {
       >
         <animated.img
           style={{
-            width: '300%',
+            width: '200%',
             userSelect: 'none',
             transform: x
               .interpolate({range: [-196, 356], output: [-380, -20]})
-              .interpolate(x => `translate3d(${x - 350}px, 0px, 0px)`)
+              .interpolate(x => `translate3d(${x - 350}px, -60px, 0px)`)
           }}
-          src={data.url}
+          src={require('../../asset/img/' + data.url)}
         />
         <animated.div
           style={{

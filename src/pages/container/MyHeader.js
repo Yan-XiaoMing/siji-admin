@@ -109,8 +109,8 @@ class MyHeader extends Component {
             <Menu mode="horizontal" selectable={false}>
               <SubMenu title={
                 <div style={styles.avatarBox}>
-                  <Avatar size='small' src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>&nbsp;
-                  <span>Ali_Ming</span>
+                  <Avatar size='small' src={require('../../asset/img/header.jpg')}/>&nbsp;
+                  <span>{this.state.user.username}</span>
                 </div>}
               >
                 <MenuItemGroup title="用户中心">

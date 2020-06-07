@@ -57,8 +57,13 @@ class MySider extends Component {
     const {activeMenu} = this.props;
 
     return (
-      <div>
-        <div style={styles.logo}/>
+      <div className='my-sider dark'>
+        <div className='sider-menu-logo dark'>
+          <a target="_blank" rel="noopener noreferrer">
+            <img src={require('../../asset/img/logo_wuzi.png')} alt="四季logo"/>
+            <h1>四季惠享</h1>
+          </a>
+        </div>
         <Menu theme="dark" mode="inline" selectedKeys={[activeMenu]}>
           {this.renderMenu(menu)}
         </Menu>
@@ -66,14 +71,5 @@ class MySider extends Component {
     );
   }
 }
-
-const styles = {
-  logo: {
-    height: 32,
-    background: 'rgba(255, 255, 255, .2)',
-    margin: 16
-  }
-};
-
 
 export default withRouter(MySider);
