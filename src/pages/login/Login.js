@@ -112,7 +112,7 @@ class Login extends Component {
       if (data.code === 0) {
         await this.props.saveUserData(user);
         console.log('跳转');
-        this.props.history.replace('/');
+        this.props.history.push('/');
       } else {
         storageUtils.removeUser();
       }

@@ -51,7 +51,7 @@ class Container extends Component {
       onOk: () => {
         // console.log('ok');
         storageUtils.removeUser();
-        this.props.history.replace('/login');
+        this.props.history.push('/login');
       }
     });
   };

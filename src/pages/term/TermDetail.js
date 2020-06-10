@@ -210,7 +210,7 @@ class TermDetail extends Component {
               listType="picture-card"
               className="avatar-uploader"
               fileList={fileList}
-              action="/img/create"
+              action={BASE_IMG_URL + 'img/create'}
               onChange={this.handleChange}
             >
               {fileList.length >= 1 ? null : uploadButton}

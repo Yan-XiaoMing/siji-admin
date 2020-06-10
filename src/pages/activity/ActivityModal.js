@@ -6,6 +6,7 @@ import {BASE_IMG_URL} from '../../config/common';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/index.css';
 import {addActivity} from '../../api/activity';
+import {buildPreviewHtml} from '../../utils/util';
 
 const {TextArea} = Input;
 
@@ -106,6 +107,16 @@ class ActivityModal extends Component {
     this.setState({fileList});
   };
 
+  preview = () => {
+    if (window.previewWindow) {
+      window.previewWindow.close();
+    }
+    window.previewWindow = window.open();
+    window.previewWindow.document.write(buildPreviewHtml(this.state.editorState.toHTML()));
+    window.previewWindow.document.close();
+
+  };
+
 
   render() {
     const {fileList, editorState} = this.state;
@@ -172,7 +183,7 @@ class ActivityModal extends Component {
             listType="picture-card"
             className="avatar-uploader"
             fileList={fileList}
-            action="/img/create"
+            action={BASE_IMG_URL + 'img/create'}
             onChange={this.handleChange}
           >
             {fileList.length >= 1 ? null : uploadButton}

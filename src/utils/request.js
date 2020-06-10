@@ -2,9 +2,10 @@ import axios from 'axios';
 import {message} from 'antd';
 import storageUtils from './storageUtils';
 
-export const baseUrl = 'http://localhost:9988';
+export const baseUrl = 'http://47.96.167.250:9988';
 
 const service = axios.create({
+  baseURL: baseUrl,
   timeout: 5000 // 请求超时时间
 });
 

@@ -41,7 +41,6 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "color": "node color.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
@@ -60,8 +59,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9988",
   "devDependencies": {
     "react-virtualized": "^9.21.2"
-  }
+  },
+  "homepage": "."
 }

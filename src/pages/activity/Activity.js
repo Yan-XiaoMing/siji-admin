@@ -107,7 +107,7 @@ class Activity extends Component {
     const result = req.data;
     if (result.code == 0) {
       message.success('删除成功');
-      await this.getActivityList();
+      await this.getActivity();
     } else {
       message.error(result.errMsg || result.data || '删除异常');
     }

@@ -12,9 +12,9 @@ export function setWebsocket(websocket) {
 }
 
 export function initWebSocket(user) {    //初始化websocket对象
-  console.log(window.location.hostname);
+  // console.log(window.location.hostname);
   return async function (dispatch) {
-    const websocket = new WebSocket('ws://' + window.location.hostname + ':7778');
+    const websocket = new WebSocket('ws://' + '47.96.167.250' + ':7778');
     //建立连接时触发
     websocket.onopen = function (event) {
       const data = {
@@ -32,11 +32,13 @@ export function initWebSocket(user) {    //初始化websocket对象
       //在线人数变化的消息
       if (data.type === 0) {
         dispatch(setOnlinelist(data.msg.onlineList));
-        console.log('弹窗')
-        data.msg.text && notification.info({
-          message: '提示',
-          description: data.msg.text
-        });
+        console.log(data.msg.text);
+        if (data.msg.text && data.msg.text != '' && data.msg.text !== '用户undefined已上线') {
+          notification.info({
+            message: '提示',
+            description: data.msg.text
+          });
+        }
       }
       //聊天的消息
       if (data.type === 1) {
